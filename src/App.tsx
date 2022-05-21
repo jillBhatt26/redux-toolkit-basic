@@ -26,6 +26,7 @@ import { addReservation } from './features';
 
 // rtk
 import { AnyAction } from '@reduxjs/toolkit';
+import { ICustomer } from './features/interfaces';
 
 const App = () => {
     // global states
@@ -65,8 +66,6 @@ const App = () => {
         setReservationInput('');
     };
 
-    // customers event handlers
-
     return (
         <div className="App">
             <div className="container">
@@ -99,16 +98,25 @@ const App = () => {
                 </div>
 
                 <div className="customer-food-container">
+                    <h5
+                        className="reservation-header"
+                        style={{ marginLeft: 20 }}
+                    >
+                        Customers
+                    </h5>
                     {customers.length > 0 ? (
-                        customers.map((customer: string, idx: number) => (
-                            <CustomerCard
-                                name={customer}
-                                key={idx}
-                                index={idx}
-                            />
+                        customers.map((customer: ICustomer, idx: number) => (
+                            <div key={idx} style={{ marginLeft: 5 }}>
+                                <CustomerCard
+                                    name={customer.name}
+                                    index={idx}
+                                    customerID={customer.id}
+                                    food={customer.food}
+                                />
+                            </div>
                         ))
                     ) : (
-                        <>No customers available</>
+                        <p style={{ marginLeft: 20 }}>No customers available</p>
                     )}
                 </div>
             </div>

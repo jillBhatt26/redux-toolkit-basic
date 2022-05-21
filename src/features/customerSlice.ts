@@ -7,7 +7,11 @@ import {
 } from '@reduxjs/toolkit';
 
 // interfaces
-import { ICustomerSliceInitState } from './interfaces';
+import {
+    IAddFoodAction,
+    ICustomer,
+    ICustomerSliceInitState
+} from './interfaces';
 
 // initialState
 const initialState: ICustomerSliceInitState = {
@@ -19,11 +23,18 @@ const customerSlice = createSlice({
     name: 'Customers',
     initialState,
     reducers: {
-        addCustomer: (state, action: PayloadAction<string>) => {
+        addCustomer: (state, action: PayloadAction<ICustomer>) => {
             state.customers.push(action.payload);
         },
         removeCustomer: (state, action: PayloadAction<number>) => {
             state.customers.splice(action.payload, 1);
+        },
+        addFood: (state, action: PayloadAction<IAddFoodAction>) => {
+            const customer: ICustomer = state.customers[action.payload.index];
+
+            customer!.food = [...customer!.food, action.payload.food];
+
+            state.customers[action.payload.index] = customer;
         }
     }
 });
@@ -32,6 +43,6 @@ const customerSlice = createSlice({
 const customerReducer: Reducer<ICustomerSliceInitState, AnyAction> =
     customerSlice.reducer;
 
-const { addCustomer, removeCustomer } = customerSlice.actions;
+const { addCustomer, removeCustomer, addFood } = customerSlice.actions;
 
-export { customerReducer, addCustomer, removeCustomer };
+export { customerReducer, addCustomer, removeCustomer, addFood };

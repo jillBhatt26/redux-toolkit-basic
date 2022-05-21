@@ -1,5 +1,6 @@
 export interface ICustomerCardProps {
-    key: number;
     name: string;
     index: number;
+    customerID: number;
+    food: string[];
 }

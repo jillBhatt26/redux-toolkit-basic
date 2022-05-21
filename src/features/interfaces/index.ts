@@ -3,5 +3,17 @@ export interface IReservationSliceInitState {
 }
 
 export interface ICustomerSliceInitState {
-    customers: string[];
+    customers: ICustomer[];
+}
+
+export interface ICustomer {
+    id: number;
+    name: string;
+    food: string[];
+}
+
+export interface IAddFoodAction {
+    customerID: number;
+    food: string;
+    index: number;
 }

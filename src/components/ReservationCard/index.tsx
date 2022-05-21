@@ -15,6 +15,7 @@ import { addCustomer, removeReservation } from '../../features';
 
 // app directory
 import { RootState } from '../../app/';
+import { ICustomer } from '../../features/interfaces';
 
 // component definition
 const ReservationCard: FC<IReservationCardProps> = ({
@@ -26,6 +27,10 @@ const ReservationCard: FC<IReservationCardProps> = ({
         (state: RootState) => state.reservations.value
     );
 
+    const customers: ICustomer[] = useSelector(
+        (state: RootState) => state.customers.customers
+    );
+
     // action dispatchers
     const dispatch: Dispatch<AnyAction> = useDispatch();
 
@@ -35,11 +40,17 @@ const ReservationCard: FC<IReservationCardProps> = ({
     ) => {
         event.preventDefault();
 
-        const newCustomer: string = reservations[index];
+        const newCustomerName: string = reservations[index];
 
         dispatch(removeReservation(index));
 
         // Add the index's value to the customers reducer slice
+        const newCustomer: ICustomer = {
+            id: customers.length + 1,
+            name: newCustomerName,
+            food: []
+        };
+
         dispatch(addCustomer(newCustomer));
     };
 

@@ -1,19 +1,31 @@
 // react
-import { FC, MouseEvent, MouseEventHandler } from 'react';
+import {
+    useState,
+    ChangeEvent,
+    FC,
+    MouseEvent,
+    MouseEventHandler
+} from 'react';
 
 // react-redux
 import { useDispatch } from 'react-redux';
 
 // features
-import { removeCustomer } from '../../features';
+import { addFood, removeCustomer } from '../../features';
+import { IAddFoodAction } from '../../features/interfaces';
 
 // interfaces imports
 import { ICustomerCardProps } from './interfaces';
 
 const CustomerCard: FC<ICustomerCardProps> = ({
     name,
-    index
+    index,
+    customerID,
+    food
 }: ICustomerCardProps) => {
+    // component states
+    const [foodInput, setFoodInput] = useState<string>('');
+
     // action dispatchers
     const dispatch = useDispatch();
 
@@ -22,6 +34,26 @@ const CustomerCard: FC<ICustomerCardProps> = ({
         event.preventDefault();
 
         dispatch(removeCustomer(index));
+    };
+
+    const handleAddFood: MouseEventHandler<HTMLButtonElement> = (
+        event: MouseEvent<HTMLButtonElement>
+    ) => {
+        event.preventDefault();
+
+        if (!foodInput.length) {
+            return alert('Please add a food item to order!');
+        }
+
+        const addFoodItem: IAddFoodAction = {
+            customerID,
+            food: foodInput,
+            index
+        };
+
+        dispatch(addFood(addFoodItem));
+
+        setFoodInput('');
     };
 
     return (
@@ -40,10 +72,23 @@ const CustomerCard: FC<ICustomerCardProps> = ({
             </b>
 
             <div className="customer-foods-container">
-                <div className="customer-food"></div>
+                <div className="customer-food">
+                    {food.length > 0 ? (
+                        food.map((foodItem: string, idx: number) => (
+                            <p key={idx}>{foodItem}</p>
+                        ))
+                    ) : (
+                        <>No orders placed!</>
+                    )}
+                </div>
                 <div className="customer-food-input-container">
-                    <input />
-                    <button>Add</button>
+                    <input
+                        value={foodInput}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                            setFoodInput(event.target.value)
+                        }
+                    />
+                    <button onClick={handleAddFood}>Add</button>
                 </div>
             </div>
         </div>
