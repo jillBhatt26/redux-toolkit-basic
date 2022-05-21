@@ -11,11 +11,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AnyAction } from '@reduxjs/toolkit';
 
 // features
-import { addCustomer, removeReservation } from '../../features';
+import { addCustomer, removeReservation } from '../../../features';
 
 // app directory
-import { RootState } from '../../app/';
-import { ICustomer } from '../../features/interfaces';
+import { RootState } from '../../../app/';
+import { ICustomer } from '../../../features/interfaces';
 
 // component definition
 const ReservationCard: FC<IReservationCardProps> = ({

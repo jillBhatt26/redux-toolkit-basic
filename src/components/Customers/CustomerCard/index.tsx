@@ -11,8 +11,8 @@ import {
 import { useDispatch } from 'react-redux';
 
 // features
-import { addFood, removeCustomer } from '../../features';
-import { IAddFoodAction } from '../../features/interfaces';
+import { addFood, removeCustomer } from '../../../features';
+import { IAddFoodAction } from '../../../features/interfaces';
 
 // interfaces imports
 import { ICustomerCardProps } from './interfaces';
